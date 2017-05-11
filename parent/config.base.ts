@@ -20,6 +20,10 @@ class ConfigBase{
     getAuth(ro: RequestOptions, cName: string): Observable<RequestOptions> {
         throw Error('Method not implemented');
     }
+
+    catch(req:Observable<any>){
+        return req;
+    }
 }
 
 export {ConfigBase}

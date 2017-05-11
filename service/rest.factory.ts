@@ -25,10 +25,10 @@ export class FactoryBase<T extends RestBase>{
         });
         return this.config.getAuth(options, this.constructor.name).flatMap((auth_opts) => {
             var data = this.http.get(this.config.getEndpoint(this.TCreator.name), auth_opts)
-            return data.map(r => {
+            return this.config.catch(data.map(r => {
                 var list = new ResponseList<T>(this.http, this.config, this.service, this.TCreator);
                 return list.fromJson(r.json());
-            });
+            }));
         });
     }
 
@@ -38,10 +38,10 @@ export class FactoryBase<T extends RestBase>{
         });
         return this.config.getAuth(options, this.constructor.name).flatMap((auth_opts) => {
             var data = this.http.get(this.config.getEndpoint(this.TCreator.name) + "/" + id, auth_opts);
-            return data.map(r => {
+            return this.config.catch(data.map(r => {
                 var newInstance = this.create() as RestBase;
                 return newInstance.fromJson(r.json()) as any;
-            });
+            }));
         })
     }
 }

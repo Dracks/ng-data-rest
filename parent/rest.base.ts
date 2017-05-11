@@ -58,9 +58,9 @@ export class RestBase {
             headers: new Headers(),
             url: endpoint
         });
-        return this.config.getAuth(options, this.constructor.name).flatMap((auth_opts)=>{
+        return this.config.catch(this.config.getAuth(options, this.constructor.name).flatMap((auth_opts)=>{
             return this.http.get(endpoint, auth_opts).map(r=> this.fromJson(r.json()));
-        })
+        }))
     }
 
     save(): Observable<this> {
@@ -77,9 +77,9 @@ export class RestBase {
             } else {
                 response = this.http.put(endpoint, jsonData, auth_opts);
             }
-            return response.map(r => {
+            return this.config.catch(response.map(r => {
                 return this.fromJson(r.json())
-            })
+            }));
         });
     }
 
@@ -89,9 +89,9 @@ export class RestBase {
             headers: new Headers(),
         });
         return this.config.getAuth(options, endpoint).flatMap(authOpts => {
-            return this.http.delete(endpoint, authOpts).map(r => {
+            return this.config.catch(this.http.delete(endpoint, authOpts).map(r => {
                 return true;
-            })
+            }))
         });
     }
 }
