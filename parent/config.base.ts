@@ -17,11 +17,11 @@ class ConfigBase{
         return endpoint;
     }
 
-    getAuth(ro: RequestOptions, cName: string): Observable<RequestOptions> {
+    getAuth(ro: RequestOptions, cName: string): Promise<RequestOptions> {
         throw Error('Method not implemented');
     }
 
-    catch(req:Observable<any>){
+    catch<T>(req:Promise<T>): Promise<T>{
         return req;
     }
 }

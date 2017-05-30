@@ -8,7 +8,6 @@ import { ConfigBase } from "../parent/config.base";
 import { ResponseList } from "../parent/response-list.base";
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
 
-
 @Injectable()
 export class RestService{
     registered: {[name:string]:FactoryBase<any>}={}
@@ -27,11 +26,11 @@ export class RestService{
         return factory;
     }
 
-    retrieve<T extends RestBase>(TCreator: { new (Http, IConfig, RestService): T; }, id: string): Observable<T>{
+    retrieve<T extends RestBase>(TCreator: { new (Http, IConfig, RestService): T; }, id: string): Promise<T>{
         return this.retrieveFactory(TCreator).retrieve(id);
     }
 
-    query<T extends RestBase>(TCreator: { new (Http, IConfig, RestService): T; }, params: any): Observable<ResponseList<T>>{
+    query<T extends RestBase>(TCreator: { new (Http, IConfig, RestService): T; }, params: any): Promise<ResponseList<T>>{
         var factory=this.retrieveFactory(TCreator);
         return factory.query(params);
     }

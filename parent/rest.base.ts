@@ -52,24 +52,24 @@ export class RestBase {
         }
         return this;
     }
-    reload(): Observable<this>{
+    reload(): Promise<this>{
         var endpoint = this.config.getEndpoint(this.constructor.name, this.id);
         var options = new RequestOptions({
             headers: new Headers(),
             url: endpoint
         });
-        return this.config.catch(this.config.getAuth(options, this.constructor.name).flatMap((auth_opts)=>{
-            return this.http.get(endpoint, auth_opts).map(r=> this.fromJson(r.json()));
+        return this.config.catch(this.config.getAuth(options, this.constructor.name).then((auth_opts)=>{
+            return this.http.get(endpoint, auth_opts).map(r=> this.fromJson(r.json())).toPromise();
         }))
     }
 
-    save(): Observable<this> {
+    save(): Promise<this> {
         var endpoint = this.config.getEndpoint(this.constructor.name, this.id);
         var options = new RequestOptions({
             headers: new Headers(),
             url: endpoint,
         });
-        return this.config.getAuth(options, this.constructor.name).flatMap((auth_opts) => {
+        return this.config.getAuth(options, this.constructor.name).then((auth_opts) => {
             var response;
             var jsonData = this.toJson();
             if (this.id == undefined) {
@@ -77,21 +77,20 @@ export class RestBase {
             } else {
                 response = this.http.put(endpoint, jsonData, auth_opts);
             }
-            return this.config.catch(response.map(r => {
-                return this.fromJson(r.json())
-            }));
+            var data = response.map(r=> this.fromJson(r.json())).toPromise();
+            return this.config.catch(data) as Promise<this>
         });
     }
 
-    destroy(): Observable<boolean> {
+    destroy(): Promise<boolean> {
         var endpoint = this.config.getEndpoint(this.constructor.name, this.id);
         var options = new RequestOptions({
             headers: new Headers(),
         });
-        return this.config.getAuth(options, endpoint).flatMap(authOpts => {
+        return this.config.getAuth(options, endpoint).then(authOpts => {
             return this.config.catch(this.http.delete(endpoint, authOpts).map(r => {
                 return true;
-            }))
+            }).toPromise())
         });
     }
 }
