@@ -1,20 +1,22 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { CoreService, registerHash } from './core.service';
+import { RestManagerService, registerHash } from './rest-manager.service';
 import { SampleEmptyObjectModel } from './test-mocks/object.model';
 import { RegisterRest } from "lib/core/register-model.decorator";
+import Adapter from "lib/core/adapters/adapter.model";
 
 
-describe('CoreService', () => {
-	var subject: CoreService;
+describe('[RestManagerService]', () => {
+	var subject: RestManagerService;
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			providers: [
-				CoreService
+				RestManagerService,
+				{ provide: Adapter, iseInstance: {} },
 			]
 		});
-		subject = TestBed.get(CoreService)
-		var f=RegisterRest()
+		subject = TestBed.get(RestManagerService)
+		var f=RegisterRest({})
 		f(SampleEmptyObjectModel);
 	});
 

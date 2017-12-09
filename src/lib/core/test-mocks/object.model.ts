@@ -1,8 +1,8 @@
 
 import { RegisterRest } from '../register-model.decorator';
-import { ObjectModel } from '../object.model';
+import ObjectModel from '../model/object.model';
 
-@RegisterRest()
+@RegisterRest({})
 export class SampleEmptyObjectModel extends ObjectModel {
 
 }

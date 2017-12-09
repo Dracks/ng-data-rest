@@ -4,24 +4,28 @@ import { Eater } from "lib/utils/buffer";
 
 import { DEFAULT_QUEUE } from "./register-model.decorator";
 import { FactoryBase } from "./factory-base";
-import { ObjectModel } from "lib/core/object.model";
+import ObjectModel from "lib/core/model/object.model";
+import { EndpointModel } from "lib/core/endpoint.model";
+import ConstructorBase from "lib/core/model/constructor-base.interface";
+import Adapter from "lib/core/adapters/adapter.model";
 
 export var registerHash = {}
 
 @Injectable()
-export class CoreService implements Eater<any> {
+export class RestManagerService implements Eater<EndpointModel> {
 	registered: {};
 
-	constructor(){
+	constructor(private adapter: Adapter){
 		this.registered = {};
 		registerHash[DEFAULT_QUEUE].delegate = this;
 	}
 
-	newValue(TCreator: any) {
-		this.registered[TCreator.name] = new FactoryBase(this);
+	newValue(endpoint: EndpointModel) {
+
+		this.registered[endpoint.name] = new FactoryBase(this);
 	}
 
-	retrieve<T extends ObjectModel>(TCreator: { new (Http, IConfig, RestService): T; }){
+	retrieve<T extends ObjectModel>(TCreator: ConstructorBase<T>){
         var factory =  this.registered[TCreator.name];
         if (factory == undefined){
             throw new Error("Model "+TCreator.name+" is not registered");
