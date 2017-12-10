@@ -17,13 +17,6 @@ export default abstract class HttpAdapter extends Adapter {
 
 	protected getObject(object: ObjectModel){
 		var data: any = {};
-        /*var jsonProperties = object['__json'];
-        for (var i in jsonProperties){
-            var e = jsonProperties[i];
-            if (object[e.property]!== undefined){
-                data[e.key] = e.transform.serialize(object[e.property]);
-            }
-		}*/
 		object.__parsersData.forEach(element => {
 			const value = element.serialize();
 			if (value){
@@ -40,14 +33,6 @@ export default abstract class HttpAdapter extends Adapter {
 				element.unserialize(value);
 			}
 		})
-		/*
-		var jsonProperties = object['__json']
-        for (var i in jsonProperties){
-            var e = jsonProperties[i]
-            if (data[e.key] !== undefined){
-                object[e.property] = e.transform.unserialize(data[e.key]);
-            }
-		}*/
 
         return object;
 	}
