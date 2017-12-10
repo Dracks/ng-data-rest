@@ -5,3 +5,5 @@ import ObjectModel, { ObjectModelWithStringPk } from '../model/object.model';
 export class SampleEmptyObjectModel extends ObjectModelWithStringPk{
 
 }
+
+export default SampleEmptyObjectModel;
