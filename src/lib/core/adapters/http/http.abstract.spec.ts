@@ -16,6 +16,9 @@ import { Injectable } from "@angular/core";
 import HttpAdapter from "lib/core/adapters/http/http.abstract";
 import ObjectModel from "lib/core/model/object.model";
 import ListModel from "lib/core/model/list.model";
+import JsonProperty from "lib/core/decorators/register-property";
+import { mockObject } from "../../../../../libs/mocks/mock";
+import { FactoryBase } from "lib/core/factory-base";
 
 
 @Injectable()
@@ -43,8 +46,17 @@ class HttpAdapterMock extends HttpAdapter {
 	/**
 	 * publicRequest
 	 */
-	public publicRequest(req: Request) {
-		return this.request(req)
+	public publicRequest(req: Request, e: ObjectModel) {
+		return this.request(req, e)
+	}
+}
+
+class MockObject extends ObjectModel{
+	@JsonProperty({})
+	value;
+
+	getPkKey(): string {
+		throw new Error("Method not implemented.");
 	}
 
 }
@@ -84,8 +96,11 @@ describe('Requests', () => {
 		}));
 		var responseValue = null;
 
-		subject.publicRequest(req).subscribe(e => {
-			responseValue = e.json().value;
+		var objectInstance = new MockObject(mockObject(FactoryBase))
+
+		subject.publicRequest(req, objectInstance).subscribe(e => {
+			var instance = e as MockObject;
+			responseValue = instance.value;
 			//e.text().then(e=>{ console.log(e); responseValue = e });
 		});
 

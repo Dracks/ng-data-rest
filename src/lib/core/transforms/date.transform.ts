@@ -9,7 +9,7 @@ class DateTransform implements TransformInterface{
 		return moment(value).format(this.format);
 	}
 	unserialize(value: any):any {
-		return moment(value, this.format).toDate();
+		return moment(value, this.format, true).toDate();
 	}
 
 }

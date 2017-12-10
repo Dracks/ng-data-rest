@@ -7,8 +7,11 @@ export default abstract class ObjectModel {
 		return this._factory
 	}
 	constructor(private _factory: FactoryBase<any>){}
+
 	abstract getPkKey():string
 }
+
+
 class ObjectModelWithStringPk extends ObjectModel{
 	getPkKey(): string {
 		return 'pk';

@@ -20,7 +20,7 @@ class DrfAdapter extends HttpAdapter {
 			url: url,
 			method: RequestMethod.Post,
 			body: this.getObject(e)
-		}))).map((response)=>this.assignData(e, response.json()))
+		})), e)
 	}
 
 	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {
@@ -33,10 +33,13 @@ class DrfAdapter extends HttpAdapter {
 		throw new Error("Method not implemented.");
 	}
 	saveElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
+		const url = this.getEndpointForObject(e);
+		return this.request(new Request(new RequestOptions({
+			url: url,
+			method: RequestMethod.Put,
+			body: this.getObject(e)
+		})), e)
 	}
-
-
 }
 
 export default DrfAdapter;

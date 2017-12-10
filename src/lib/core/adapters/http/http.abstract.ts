@@ -9,6 +9,12 @@ export default abstract class HttpAdapter extends Adapter {
 		super();
 	}
 
+	protected getEndpointForObject(object: ObjectModel){
+		var endpoint = this.getEndpoint(object.__factory.endpoint);
+		endpoint += '/' + object[object.getPkKey()];
+		return endpoint;
+	}
+
 	protected getObject(object: ObjectModel){
 		var data: any = {};
         var jsonProperties = object['__json'];
@@ -23,16 +29,17 @@ export default abstract class HttpAdapter extends Adapter {
 
 	protected assignData(object: ObjectModel, data: any): ObjectModel{
 		var jsonProperties = object['__json']
+		console.log(data);
         for (var i in jsonProperties){
             var e = jsonProperties[i]
             if (data[e.key] !== undefined){
-                object[e.property] = e.transform.serialize(data[e.key]);
+                object[e.property] = e.transform.unserialize(data[e.key]);
             }
         }
         return object;
 	}
 
-	protected request(req: Request): Observable<Response>{
-		return this.http.request(req);
+	protected request(req: Request, instance: ObjectModel): Observable<ObjectModel>{
+		return this.http.request(req).map((response)=>this.assignData(instance, response.json()));
 	}
 }

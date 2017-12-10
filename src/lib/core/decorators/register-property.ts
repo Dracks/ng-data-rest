@@ -1,5 +1,6 @@
 import TransformInterface from "lib/core/transforms/transform.interface";
 import StringTransform from "lib/core/transforms/string.transform";
+import { StringUtils } from "lib/utils/string";
 
 class RegisteredPropertyType {
 	key: string
