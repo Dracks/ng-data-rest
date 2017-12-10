@@ -64,6 +64,6 @@ describe('[ObjectModel]', ()=>{
 	it('Save old instance', ()=>{
 		subject.isNew = false;
 		subject.save();
-		expect(adapterMock.saveElement).toHaveBeenCalledWith(subject);
+		expect(adapterMock.updateElement).toHaveBeenCalledWith(subject);
 	})
 })

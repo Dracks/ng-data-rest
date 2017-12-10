@@ -12,7 +12,7 @@ export default abstract class Adapter {
 	abstract retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel>;
 	abstract retrieveListElements(e: ObjectModel, options: any): Observable<ListModel>;
 	abstract updateElement(e: ObjectModel): Observable<ObjectModel>;
-	abstract saveElement(e: ObjectModel): Observable<ObjectModel>;
+	abstract deleteElement(e: ObjectModel):Observable<boolean>;
 
 	getEndpoint(data: EndpointModel<ObjectModel>){
 		var endpoint = '/';

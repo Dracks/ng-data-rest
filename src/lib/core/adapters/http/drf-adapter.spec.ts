@@ -91,7 +91,7 @@ describe('Django Rest Framework Adapter', () => {
 
 		value.pk = pk
 		value.name = "" + Math.random();
-		subject.saveElement(value).subscribe((e)=>{});;
+		subject.updateElement(value).subscribe((e)=>{});;
 		checkRequest('/mock/'+pk, RequestMethod.Put, {pk: pk, name: value.name })
 		var lastConnection = listConnections[0];
 

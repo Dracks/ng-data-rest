@@ -10,7 +10,7 @@ import { Request, RequestMethod } from "@angular/http";
 
 @Injectable()
 class DrfAdapter extends HttpAdapter {
-	constructor(http: Http){
+	constructor(http: Http) {
 		super(http);
 	}
 
@@ -26,19 +26,22 @@ class DrfAdapter extends HttpAdapter {
 	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
+
 	retrieveListElements(e: ObjectModel, options: any): Observable<ListModel> {
 		throw new Error("Method not implemented.");
 	}
+
 	updateElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	saveElement(e: ObjectModel): Observable<ObjectModel> {
 		const url = this.getEndpointForObject(e);
 		return this.request(new Request(new RequestOptions({
 			url: url,
 			method: RequestMethod.Put,
 			body: this.getObject(e)
 		})), e)
+	}
+
+	deleteElement(e: ObjectModel): Observable<boolean> {
+		throw new Error("Method not implemented.");
 	}
 }
 

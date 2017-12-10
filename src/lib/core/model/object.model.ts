@@ -31,7 +31,7 @@ export default abstract class ObjectModel {
 			var r= this._factory.adapter.createElement(this);
 			return r.do(()=>{this.isNew=false});
 		} else {
-			this._factory.adapter.saveElement(this);
+			this._factory.adapter.updateElement(this);
 		}
 	}
 
