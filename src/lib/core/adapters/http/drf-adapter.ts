@@ -14,31 +14,10 @@ class DrfAdapter extends HttpAdapter {
 		super(http);
 	}
 
-	getObject(object: ObjectModel){
-		var data: any = {};
-        var jsonProperties = object['__json'];
-        for (var i in jsonProperties){
-            var e = jsonProperties[i];
-            if (object[e.property]!== undefined){
-                data[e.key] = e.transform.serialize(object[e.property]);
-            }
-        }
-        return data;
-	}
-
-	assignData(object: ObjectModel, data: any): ObjectModel{
-		var jsonProperties = object['__json']
-        for (var i in jsonProperties){
-            var e = jsonProperties[i]
-            if (data[e.key] !== undefined){
-                object[e.property] = e.transform.serialize(data[e.key]);
-            }
-        }
-        return object;
-	}
-
 	createElement(e: ObjectModel): Observable<ObjectModel> {
+		const url = this.getEndpoint(e.__factory.endpoint);
 		return this.request(new Request(new RequestOptions({
+			url: url,
 			method: RequestMethod.Post,
 			body: this.getObject(e)
 		}))).map((response)=>this.assignData(e, response.json()))

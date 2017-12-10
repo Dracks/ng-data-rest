@@ -17,6 +17,10 @@ import DrfAdapter from "./drf-adapter";
 import ObjectModel, { ObjectModelWithStringPk } from "lib/core/model/object.model";
 import ListModel from "lib/core/model/list.model";
 import JsonProperty from "lib/core/decorators/register-property";
+import { FactoryBase } from "lib/core/factory-base";
+import { mockObject } from "../../../../../libs/mocks/index";
+import { RestManagerService } from "lib/core/rest-manager.service";
+import { EndpointModel } from "lib/core/endpoint.model";
 
 class MockModel extends ObjectModelWithStringPk {
 	@JsonProperty({})
@@ -53,18 +57,20 @@ describe('Django Rest Framework Adapter', () => {
 		});
 	});
 
-	function checkRequest(method: RequestMethod, body: any) {
+	function checkRequest(url: string, method: RequestMethod, body: any) {
 		expect(lastRequest).toBeTruthy();
+		expect(lastRequest.url).toBe(url);
 		expect(lastRequest.method).toBe(method)
 		expect(lastRequest.json()).toEqual(body);
 	}
 
 	it('Check create element', () => {
-		var value = new MockModel();
+		const factory = new FactoryBase(mockObject(RestManagerService), new EndpointModel(MockModel))
+		var value = factory.getInstance();
 		const pk = "" + Math.random();
 		value.name = "" + Math.random();
 		subject.createElement(value).subscribe((e)=>{});;
-		checkRequest(RequestMethod.Post, { name: value.name })
+		checkRequest('/mock', RequestMethod.Post, { name: value.name })
 		var lastConnection = listConnections[0];
 
 		listConnections[0].mockRespond(new Response(

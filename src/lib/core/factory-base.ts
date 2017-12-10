@@ -5,6 +5,9 @@ import { EndpointModel } from "lib/core/endpoint.model";
 
 
 export class FactoryBase<T extends ObjectModel>{
+	get endpoint(){
+		return this.objectInfo;
+	}
 
 	constructor(private core: RestManagerService, private objectInfo: EndpointModel<T>)
 	{
@@ -12,7 +15,7 @@ export class FactoryBase<T extends ObjectModel>{
 	}
 
 	getInstance(): T {
-		return new this.objectInfo.creator();
+		return new this.objectInfo.creator(this);
 	}
 
 }

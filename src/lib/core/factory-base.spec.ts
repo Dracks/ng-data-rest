@@ -23,8 +23,13 @@ describe('[Factory-Base]', ()=>{
 	})
 
 	it('Create Object Model', ()=>{
-		var obj=subject.getInstance();
+		const obj=subject.getInstance();
 		expect(obj).toBeTruthy();
 		expect(obj instanceof SampleEmptyObjectModel).toBe(true);
+	})
+
+	it('Endpoint information', ()=>{
+		const data=subject.endpoint;
+		expect(data).toBe(endpoint);
 	})
 })
