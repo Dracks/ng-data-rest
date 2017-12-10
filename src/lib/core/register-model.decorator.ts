@@ -12,9 +12,9 @@ export function RegisterRest(data: {queue?: string, endpoint?: string, namespace
 	if (!data.queue){
 		data.queue = DEFAULT_QUEUE;
 	}
-	var buffer: Buffer<EndpointModel> = registerHash[data.queue];
+	var buffer: Buffer<EndpointModel<any>> = registerHash[data.queue];
 	if (!buffer){
-		buffer = registerHash[data.queue] = new Buffer<EndpointModel>();
+		buffer = registerHash[data.queue] = new Buffer<EndpointModel<any>>();
 	}
 	return function <T extends ObjectModel>(TCreator: ConstructorBase<T>) {
 		var endpoint = new EndpointModel(TCreator);

@@ -14,50 +14,62 @@ import { Observable } from "rxjs/Observable";
 import { Injectable } from "@angular/core";
 
 import DrfAdapter from "./drf-adapter";
-import ObjectModel,{ ObjectModelWithStringPk } from "lib/core/model/object.model";
+import ObjectModel, { ObjectModelWithStringPk } from "lib/core/model/object.model";
 import ListModel from "lib/core/model/list.model";
 import JsonProperty from "lib/core/decorators/register-property";
 
-class MockModel extends ObjectModelWithStringPk{
+class MockModel extends ObjectModelWithStringPk {
 	@JsonProperty({})
 	pk: string
+
+	@JsonProperty({})
+	name: string
 }
 
 
 describe('Django Rest Framework Adapter', () => {
 	var subject: DrfAdapter;
 	var requestSpied: any;
-	var responseMock: Observable<Response>;
 	var lastRequest: Request;
+	var backend: MockBackend;
+	var listConnections: any[]
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			imports: [ HttpModule ],
+			imports: [HttpModule],
 			providers: [
-				{ provide: Http, useInstance: {} },
+				{ provide: XHRBackend, useClass: MockBackend },
 				DrfAdapter
 			]
 		});
 
 		subject = TestBed.get(DrfAdapter);
+		backend = TestBed.get(XHRBackend);
+		listConnections = [];
 
-		lastRequest = null;
-		subject['request'] = (req: Request)=>{
-			lastRequest = req;
-			return responseMock;
-		}
+		backend.connections.subscribe((connection: any) => {
+			lastRequest = connection.request;
+			listConnections.push(connection);
+		});
 	});
 
-	function checkRequest(method: RequestMethod, body: any){
+	function checkRequest(method: RequestMethod, body: any) {
 		expect(lastRequest).toBeTruthy();
 		expect(lastRequest.method).toBe(method)
 		expect(lastRequest.json()).toEqual(body);
 	}
 
-	it('Check create element', ()=>{
-		var value=new MockModel();
-		value.pk = ""+Math.random();
-		subject.createElement(value);
-		checkRequest(RequestMethod.Post, {pk:value.pk})
+	it('Check create element', () => {
+		var value = new MockModel();
+		const pk = "" + Math.random();
+		value.name = "" + Math.random();
+		subject.createElement(value).subscribe((e)=>{});;
+		checkRequest(RequestMethod.Post, { name: value.name })
+		var lastConnection = listConnections[0];
+
+		listConnections[0].mockRespond(new Response(
+			new ResponseOptions({body: {pk: pk, name: value.name}})
+		));
+		expect(value.pk).toBe(pk);
 	})
 });

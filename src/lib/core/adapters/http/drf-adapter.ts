@@ -1,8 +1,7 @@
 import { RequestOptions, Http } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-
-
+import 'rxjs/add/operator/map'
 
 import ObjectModel from "lib/core/model/object.model";
 import HttpAdapter from "lib/core/adapters/http/http.abstract";
@@ -15,7 +14,7 @@ class DrfAdapter extends HttpAdapter {
 		super(http);
 	}
 
-	getObject(object: ObjectModel<any>){
+	getObject(object: ObjectModel){
 		var data: any = {};
         var jsonProperties = object['__json'];
         for (var i in jsonProperties){
@@ -27,11 +26,22 @@ class DrfAdapter extends HttpAdapter {
         return data;
 	}
 
-	createElement(e: ObjectModel<any>): Observable<ObjectModel> {
+	assignData(object: ObjectModel, data: any): ObjectModel{
+		var jsonProperties = object['__json']
+        for (var i in jsonProperties){
+            var e = jsonProperties[i]
+            if (data[e.key] !== undefined){
+                object[e.property] = e.transform.serialize(data[e.key]);
+            }
+        }
+        return object;
+	}
+
+	createElement(e: ObjectModel): Observable<ObjectModel> {
 		return this.request(new Request(new RequestOptions({
 			method: RequestMethod.Post,
 			body: this.getObject(e)
-		})))
+		}))).map((response)=>this.assignData(e, response.json()))
 	}
 
 	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {

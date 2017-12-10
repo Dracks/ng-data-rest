@@ -1,0 +1,3 @@
+[submodule "libs/mocks"]
+	path = libs/mocks
+	url = git@github.com:Blueliv/ng-mocks-utils.git

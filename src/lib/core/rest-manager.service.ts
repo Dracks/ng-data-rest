@@ -12,7 +12,7 @@ import Adapter from "lib/core/adapters/adapter.model";
 export var registerHash = {}
 
 @Injectable()
-export class RestManagerService implements Eater<EndpointModel> {
+export class RestManagerService implements Eater<EndpointModel<any>> {
 	registered: {};
 
 	constructor(private adapter: Adapter){
@@ -20,9 +20,8 @@ export class RestManagerService implements Eater<EndpointModel> {
 		registerHash[DEFAULT_QUEUE].delegate = this;
 	}
 
-	newValue(endpoint: EndpointModel) {
-
-		this.registered[endpoint.name] = new FactoryBase(this);
+	newValue(endpoint: EndpointModel<any>) {
+		this.registered[endpoint.name] = new FactoryBase(this, endpoint);
 	}
 
 	retrieve<T extends ObjectModel>(TCreator: ConstructorBase<T>){
