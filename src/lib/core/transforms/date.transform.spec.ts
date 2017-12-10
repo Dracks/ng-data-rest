@@ -1,10 +1,15 @@
+import { mockObject } from "../../../../libs/mocks/mock";
+import { RestManagerService } from "lib/core/rest-manager.service";
+import TransformInterface from 'lib/core/transforms/transform.interface'
+
 import DateTransform from "lib/core/transforms/date.transform";
 
 describe ('DateTransform Spec', ()=>{
-	var subject: DateTransform;
+	var subject: TransformInterface;
 
 	beforeEach(()=>{
-		subject = new DateTransform("YYYY-MM-DD hh:mm:ss");
+		var mockService= mockObject(RestManagerService);
+		subject = new (DateTransform("YYYY-MM-DD hh:mm:ss"))(mockService);
 	})
 
 	it('Exists!', ()=>{

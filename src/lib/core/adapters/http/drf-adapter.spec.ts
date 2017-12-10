@@ -30,7 +30,7 @@ class MockModel extends ObjectModelWithStringPk {
 	@JsonProperty({})
 	name: string
 
-	@JsonProperty({transform: new DateTransform("YYYY-MM-DDZ"), key: 'last-update'})
+	@JsonProperty({transform: DateTransform("YYYY-MM-DDZ"), key: 'last-update'})
 	lastUpdate: Date;
 }
 

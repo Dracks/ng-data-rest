@@ -17,25 +17,38 @@ export default abstract class HttpAdapter extends Adapter {
 
 	protected getObject(object: ObjectModel){
 		var data: any = {};
-        var jsonProperties = object['__json'];
+        /*var jsonProperties = object['__json'];
         for (var i in jsonProperties){
             var e = jsonProperties[i];
             if (object[e.property]!== undefined){
                 data[e.key] = e.transform.serialize(object[e.property]);
             }
-        }
+		}*/
+		object.__parsersData.forEach(element => {
+			const value = element.serialize();
+			if (value){
+				data[element.key] = value;
+			}
+		});
         return data;
 	}
 
 	protected assignData(object: ObjectModel, data: any): ObjectModel{
+		object.__parsersData.forEach(element => {
+			const value = data[element.key];
+			if (value){
+				element.unserialize(value);
+			}
+		})
+		/*
 		var jsonProperties = object['__json']
-		console.log(data);
         for (var i in jsonProperties){
             var e = jsonProperties[i]
             if (data[e.key] !== undefined){
                 object[e.property] = e.transform.unserialize(data[e.key]);
             }
-        }
+		}*/
+
         return object;
 	}
 

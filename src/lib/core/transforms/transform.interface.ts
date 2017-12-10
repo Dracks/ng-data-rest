@@ -1,4 +1,3 @@
-
 interface TransformInterface {
 	/**
 	 * Convert from ORM object to API Value
