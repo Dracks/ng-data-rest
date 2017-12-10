@@ -1,33 +1,17 @@
+import { Observable } from "rxjs";
+
 import Adapter from "lib/core/adapters/adapter.model";
 import ObjectModel from "lib/core/model/object.model";
-import { Observable } from "rxjs";
 import ListModel from "lib/core/model/list.model";
 import { EndpointModel } from "lib/core/endpoint.model";
 import { SampleEmptyObjectModel } from "lib/core/test-mocks/object.model";
+import MockAdapter from "lib/core/test-mocks/mock-adapter";
 
-
-class AdapterMock extends Adapter{
-	createElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	retrieveListElements(e: ObjectModel, options: any): Observable<ListModel> {
-		throw new Error("Method not implemented.");
-	}
-	updateElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	saveElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-}
 describe('[Adapter]', ()=>{
 	var subject :Adapter;
 
 	beforeEach(()=>{
-		subject = new AdapterMock();
+		subject = new MockAdapter();
 	})
 
 	it('Check endpoint Base without information', ()=>{

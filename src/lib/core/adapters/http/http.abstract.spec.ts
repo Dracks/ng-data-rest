@@ -30,16 +30,16 @@ class HttpAdapterMock extends HttpAdapter {
 	createElement(e: ObjectModel): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
-	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {
+	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
-	retrieveListElements(e: ObjectModel, options: any): Observable<ListModel> {
+	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {
 		throw new Error("Method not implemented.");
 	}
 	updateElement(e: ObjectModel): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
-	saveElement(e: ObjectModel): Observable<ObjectModel> {
+	deleteElement(e: ObjectModel): Observable<boolean> {
 		throw new Error("Method not implemented.");
 	}
 

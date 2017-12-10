@@ -10,24 +10,7 @@ import { EndpointModel } from "lib/core/endpoint.model";
 import Adapter from "lib/core/adapters/adapter.model";
 import { mockObject } from "../../../../libs/mocks/mock";
 import ObjectModel from "lib/core/model/object.model";
-
-class MockAdapter extends Adapter{
-	createElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	retrieveListElements(e: ObjectModel, options: any): Observable<ListModel> {
-		throw new Error("Method not implemented.");
-	}
-	updateElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-	saveElement(e: ObjectModel): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
-	}
-}
+import MockAdapter from "lib/core/test-mocks/mock-adapter";
 
 describe('[ObjectModel]', ()=>{
 	var subject: SampleEmptyObjectModel

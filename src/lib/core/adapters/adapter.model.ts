@@ -6,11 +6,12 @@ import ObjectModel from "lib/core/model/object.model";
 import ListModel from "lib/core/model/list.model";
 import { EndpointModel } from "lib/core/endpoint.model";
 import { StringUtils } from "lib/utils/string";
+import { FactoryBase } from "lib/core/factory-base";
 
 export default abstract class Adapter {
 	abstract createElement(e: ObjectModel): Observable<ObjectModel>;
-	abstract retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel>;
-	abstract retrieveListElements(e: ObjectModel, options: any): Observable<ListModel>;
+	abstract retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel>;
+	abstract retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel>;
 	abstract updateElement(e: ObjectModel): Observable<ObjectModel>;
 	abstract deleteElement(e: ObjectModel):Observable<boolean>;
 

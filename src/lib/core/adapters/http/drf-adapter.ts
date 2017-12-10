@@ -7,6 +7,7 @@ import ObjectModel from "lib/core/model/object.model";
 import HttpAdapter from "lib/core/adapters/http/http.abstract";
 import ListModel from "lib/core/model/list.model";
 import { Request, RequestMethod } from "@angular/http";
+import { FactoryBase } from "lib/core/factory-base";
 
 @Injectable()
 class DrfAdapter extends HttpAdapter {
@@ -23,11 +24,11 @@ class DrfAdapter extends HttpAdapter {
 		})), e)
 	}
 
-	retrieveElement(e: ObjectModel, id: any): Observable<ObjectModel> {
+	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
 
-	retrieveListElements(e: ObjectModel, options: any): Observable<ListModel> {
+	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {
 		throw new Error("Method not implemented.");
 	}
 
