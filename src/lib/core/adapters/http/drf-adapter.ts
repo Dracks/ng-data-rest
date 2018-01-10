@@ -25,7 +25,13 @@ class DrfAdapter extends HttpAdapter {
 	}
 
 	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
-		throw new Error("Method not implemented.");
+		var e= factory.getInstance();
+		e[e.getPkKey()]=id;
+		const url = this.getEndpointForObject(e);
+		return this.request(new Request(new RequestOptions({
+			url: url,
+			method: RequestMethod.Get
+		})), e)
 	}
 
 	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {

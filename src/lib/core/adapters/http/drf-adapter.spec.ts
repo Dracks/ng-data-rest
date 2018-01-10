@@ -86,7 +86,7 @@ describe('Django Rest Framework Adapter', () => {
 
 	it('Save element', ()=>{
 		var value = factory.getInstance();
-		const pk = "" + Math.random();;
+		const pk = "" + Math.random();
 		const date = "2017-02-11Z";
 
 		value.pk = pk
@@ -100,5 +100,22 @@ describe('Django Rest Framework Adapter', () => {
 		));
 		expect(value.pk).toBe(pk);
 		expect(value.lastUpdate.toISOString()).toBe(new Date(date).toISOString())
+	});
+
+	it('Retrieve an element', ()=>{
+		var value = null;
+		const pk = "" + Math.random();
+		const name = "" + Math.random();
+		subject.retrieveElement(factory, pk).subscribe((e)=>{
+			value = e;
+		});
+		checkRequest('/mock/'+pk, RequestMethod.Get, null)
+		listConnections[0].mockRespond(new Response(
+			new ResponseOptions({body: {name: name}})
+		));
+
+		expect(value).toBeTruthy();
+		expect(value.pk).toBe(pk);
+		expect(value.name).toBe(name);
 	})
 });
