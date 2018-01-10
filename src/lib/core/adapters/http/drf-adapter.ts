@@ -17,21 +17,21 @@ class DrfAdapter extends HttpAdapter {
 
 	createElement(e: ObjectModel): Observable<ObjectModel> {
 		const url = this.getEndpoint(e.__factory.endpoint);
-		return this.request(new Request(new RequestOptions({
+		return this.request({
 			url: url,
 			method: RequestMethod.Post,
 			body: this.getObject(e)
-		})), e)
+		}, e)
 	}
 
 	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
 		var e= factory.getInstance();
 		e[e.getPkKey()]=id;
 		const url = this.getEndpointForObject(e);
-		return this.request(new Request(new RequestOptions({
+		return this.request({
 			url: url,
 			method: RequestMethod.Get
-		})), e)
+		}, e)
 	}
 
 	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {
@@ -40,11 +40,11 @@ class DrfAdapter extends HttpAdapter {
 
 	updateElement(e: ObjectModel): Observable<ObjectModel> {
 		const url = this.getEndpointForObject(e);
-		return this.request(new Request(new RequestOptions({
+		return this.request({
 			url: url,
 			method: RequestMethod.Put,
 			body: this.getObject(e)
-		})), e)
+		}, e)
 	}
 
 	deleteElement(e: ObjectModel): Observable<boolean> {

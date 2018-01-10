@@ -46,7 +46,7 @@ class HttpAdapterMock extends HttpAdapter {
 	/**
 	 * publicRequest
 	 */
-	public publicRequest(req: Request, e: ObjectModel) {
+	public publicRequest(req: any, e: ObjectModel) {
 		return this.request(req, e)
 	}
 }
@@ -86,9 +86,9 @@ describe('Requests', () => {
 	});
 
 	it('Call Get on single', () => {
-		var req = new Request(new RequestOptions({
+		var req = {
 			method: 'GET',
-		}));
+		};
 
 		var randValue = Math.random();
 		var r = new Response(new ResponseOptions({

@@ -1,4 +1,4 @@
-import { Http, Request, Response } from "@angular/http";
+import { Http, Request, Response, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 
 import ObjectModel from "lib/core/model/object.model";
@@ -37,7 +37,9 @@ export default abstract class HttpAdapter extends Adapter {
         return object;
 	}
 
-	protected request(req: Request, instance: ObjectModel): Observable<ObjectModel>{
-		return this.http.request(req).map((response)=>this.assignData(instance, response.json()));
+	protected request(req: any, instance: ObjectModel): Observable<ObjectModel>{
+		var requestObject = new Request(new RequestOptions(req));
+		return this.http.request(requestObject)
+			.map((response)=>this.assignData(instance, response.json()));
 	}
 }
