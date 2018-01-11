@@ -35,7 +35,7 @@ class MockModel extends ObjectModelWithStringPk {
 }
 
 
-describe('Django Rest Framework Adapter', () => {
+describe('[DrfAdapter]', () => {
 	var subject: DrfAdapter;
 	var requestSpied: any;
 	var lastRequest: Request;
@@ -63,7 +63,7 @@ describe('Django Rest Framework Adapter', () => {
 		});
 	});
 
-	function checkRequest(url: string, method: RequestMethod, body: any) {
+	function checkRequest(url: string, method: RequestMethod, body: any=null) {
 		expect(lastRequest).toBeTruthy();
 		expect(lastRequest.url).toBe(url);
 		expect(lastRequest.method).toBe(method)
@@ -75,7 +75,7 @@ describe('Django Rest Framework Adapter', () => {
 		const pk = "" + Math.random();
 		value.name = "" + Math.random();
 		subject.createElement(value).subscribe((e)=>{});;
-		checkRequest('/mock', RequestMethod.Post, { name: value.name })
+		checkRequest('/mock/', RequestMethod.Post, { name: value.name })
 		var lastConnection = listConnections[0];
 
 		listConnections[0].mockRespond(new Response(
@@ -109,7 +109,7 @@ describe('Django Rest Framework Adapter', () => {
 		subject.retrieveElement(factory, pk).subscribe((e)=>{
 			value = e;
 		});
-		checkRequest('/mock/'+pk, RequestMethod.Get, null)
+		checkRequest('/mock/'+pk, RequestMethod.Get)
 		listConnections[0].mockRespond(new Response(
 			new ResponseOptions({body: {name: name}})
 		));
@@ -117,5 +117,18 @@ describe('Django Rest Framework Adapter', () => {
 		expect(value).toBeTruthy();
 		expect(value.pk).toBe(pk);
 		expect(value.name).toBe(name);
+	});
+
+	it('Retrieve a query of multiple elements', ()=>{
+		var value = null;
+		subject.retrieveListElements(factory, {query:"Dr Who"}).subscribe((e)=>{
+			value = e
+		})
+		listConnections[0].mockRespond(new Response(
+			new ResponseOptions({body: {results: []}})
+		));
+		checkRequest('/mock/?query=Dr%20Who', RequestMethod.Get)
+		expect(value.data).toBeTruthy();
+		expect(value.data.length).toBe(0);
 	})
 });
