@@ -15,7 +15,7 @@ export default abstract class HttpAdapter extends Adapter {
 		return endpoint;
 	}
 
-	protected getObject(object: ObjectModel){
+	public getObject(object: ObjectModel){
 		var data: any = {};
 		object.__parsersData.forEach(element => {
 			const value = element.serialize();
@@ -26,7 +26,7 @@ export default abstract class HttpAdapter extends Adapter {
         return data;
 	}
 
-	protected assignData(object: ObjectModel, data: any): ObjectModel{
+	public assignData(object: ObjectModel, data: any): ObjectModel{
 		object.__parsersData.forEach(element => {
 			const value = data[element.key];
 			if (value){
@@ -37,9 +37,8 @@ export default abstract class HttpAdapter extends Adapter {
         return object;
 	}
 
-	protected request(req: any, instance: ObjectModel): Observable<ObjectModel>{
+	protected request(req: any): Observable<Response>{
 		var requestObject = new Request(new RequestOptions(req));
 		return this.http.request(requestObject)
-			.map((response)=>this.assignData(instance, response.json()));
 	}
 }

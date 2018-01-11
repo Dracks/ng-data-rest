@@ -1,6 +1,7 @@
 import { FactoryBase } from "lib/core/factory-base";
 import ParseInfo from "lib/core/model/parse-info.model";
 import { Observable } from "rxjs/Observable";
+import JsonProperty from "lib/core/decorators/register-property";
 
 /// TODO: Add a parameter to specify the pk name, and type
 export default abstract class ObjectModel {
@@ -40,6 +41,9 @@ export default abstract class ObjectModel {
 
 
 class ObjectModelWithStringPk extends ObjectModel{
+	@JsonProperty({})
+	pk: string;
+
 	getPkKey(): string {
 		return 'pk';
 	}

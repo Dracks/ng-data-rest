@@ -33,7 +33,7 @@ class HttpAdapterMock extends HttpAdapter {
 	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
-	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {
+	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel<ObjectModel>> {
 		throw new Error("Method not implemented.");
 	}
 	updateElement(e: ObjectModel): Observable<ObjectModel> {
@@ -46,8 +46,8 @@ class HttpAdapterMock extends HttpAdapter {
 	/**
 	 * publicRequest
 	 */
-	public publicRequest(req: any, e: ObjectModel) {
-		return this.request(req, e)
+	public publicRequest(req: any) {
+		return this.request(req)
 	}
 }
 
@@ -98,8 +98,8 @@ describe('Requests', () => {
 
 		var objectInstance = new MockObject(mockObject(FactoryBase))
 
-		subject.publicRequest(req, objectInstance).subscribe(e => {
-			var instance = e as MockObject;
+		subject.publicRequest(req).subscribe(e => {
+			var instance = e.json()
 			responseValue = instance.value;
 			//e.text().then(e=>{ console.log(e); responseValue = e });
 		});

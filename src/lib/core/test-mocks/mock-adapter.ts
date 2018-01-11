@@ -13,7 +13,7 @@ class MockAdapter extends Adapter{
 	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
 		throw new Error("Method not implemented.");
 	}
-	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {
+	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel<ObjectModel> > {
 		throw new Error("Method not implemented.");
 	}
 	updateElement(e: ObjectModel): Observable<ObjectModel> {

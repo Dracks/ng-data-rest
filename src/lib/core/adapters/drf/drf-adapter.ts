@@ -21,7 +21,7 @@ class DrfAdapter extends HttpAdapter {
 			url: url,
 			method: RequestMethod.Post,
 			body: this.getObject(e)
-		}, e)
+		}).map((response)=>this.assignData(e, response.json()));
 	}
 
 	retrieveElement(factory: FactoryBase<ObjectModel>, id: any): Observable<ObjectModel> {
@@ -31,10 +31,10 @@ class DrfAdapter extends HttpAdapter {
 		return this.request({
 			url: url,
 			method: RequestMethod.Get
-		}, e)
+		}).map((response)=>this.assignData(e, response.json()));
 	}
 
-	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel> {
+	retrieveListElements(factory: FactoryBase<ObjectModel>, options: any): Observable<ListModel<ObjectModel> > {
 		throw new Error("Method not implemented.");
 	}
 
@@ -44,7 +44,7 @@ class DrfAdapter extends HttpAdapter {
 			url: url,
 			method: RequestMethod.Put,
 			body: this.getObject(e)
-		}, e)
+		}).map((response)=>this.assignData(e, response.json()));
 	}
 
 	deleteElement(e: ObjectModel): Observable<boolean> {
