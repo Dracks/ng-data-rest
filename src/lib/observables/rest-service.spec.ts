@@ -59,6 +59,17 @@ describe('[RestService]', ()=>{
 		expect(adapterMock.createElement).toHaveBeenCalledWith(sample);
 	});
 
+	it('Retrieving a simple element', ()=>{
+		var data: SampleEmptyObjectModel;
+		var result = mockObject(SampleEmptyObjectModel);
+		adapterMock.retrieveSample.and.callFake(()=>Observable.of())
+		subject.queryRecord(SampleEmptyObjectModel, 3).subscribe((e)=>{
+			data=e;
+		})
+		expect(data).toBe(result);
+		expect(adapterMock.retrieveElement).toHaveBeenCalledTimes(1);
+	})
+
 	it('Querying a list of elements', ()=>{
 		var data: ListModel<SampleEmptyObjectModel>;
 		var results= mockObject(ListModel);

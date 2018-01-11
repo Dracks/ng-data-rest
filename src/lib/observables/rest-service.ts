@@ -20,6 +20,11 @@ class RestService {
 		return this.service.adapter.retrieveListElements(factory, options) as Observable<ListModel<T>>
 	}
 
+	queryRecord<T extends ObjectModel>(TCreator: ConstructorBase<T>, pk: string): Observable<T>{
+		var factory = this.service.retrieve(TCreator);
+		return this.service.adapter.retrieveElement(factory, pk) as Observable<T>;
+	}
+
 }
 
 export default RestService;
