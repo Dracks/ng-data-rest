@@ -9,6 +9,7 @@ import { EndpointModel } from "lib/core/endpoint.model";
 import Adapter from "lib/core/adapters/adapter.model";
 import MockAdapter from "lib/core/test-mocks/mock-adapter";
 import { Observable } from "rxjs/Observable";
+import ListModel from "lib/core/model/list.model";
 
 
 describe('[RestService]', ()=>{
@@ -23,6 +24,9 @@ describe('[RestService]', ()=>{
 
 	beforeEach(()=>{
 		restMock = mockObject(RestManagerService);
+		adapterMock = mockObject(MockAdapter)
+		restMock.adapter = adapterMock
+
 		TestBed.configureTestingModule({
 			providers: [
 				RestService,
@@ -30,8 +34,6 @@ describe('[RestService]', ()=>{
 			]
 		})
 		subject = TestBed.get(RestService);
-		adapterMock = mockObject(MockAdapter)
-		restMock.adapter = adapterMock
 	})
 
 	it('Created it?', ()=>{
@@ -57,5 +59,14 @@ describe('[RestService]', ()=>{
 		expect(adapterMock.createElement).toHaveBeenCalledWith(sample);
 	});
 
-
+	it('Querying a list of elements', ()=>{
+		var data: ListModel<SampleEmptyObjectModel>;
+		var results= mockObject(ListModel);
+		adapterMock.retrieveListElements.and.callFake(()=>Observable.of(results));
+		subject.query(SampleEmptyObjectModel).subscribe((e)=>{
+			data=e;
+		});
+		expect(data).toBe(results);
+		expect(adapterMock.retrieveListElements).toHaveBeenCalledTimes(1);
+	})
 });
