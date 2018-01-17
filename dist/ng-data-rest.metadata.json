@@ -1,0 +1,1 @@
+{"__symbolic":"module","version":4,"metadata":{"RegisterRest":{"__symbolic":"function"}},"origins":{"JsonProperty":"./lib/observables/index","RegisterRest":"./lib/core/register-model.decorator","RestService":"./lib/observables/index","ObjectModel":"./lib/observables/index","ListModel":"./lib/observables/index"},"importAs":"ng-data-rest"}

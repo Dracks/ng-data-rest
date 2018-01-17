@@ -1,0 +1,28 @@
+{
+  "name": "ng-data-rest",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dracks/ng-data-rest"
+  },
+  "author": {
+    "name": "Jaume Singla",
+    "email": "jaume.singlavalls@gmail.com"
+  },
+  "keywords": [
+    "angular", "Rest CRUD"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dracks/ng-data-rest/issues"
+  },
+  "main": "ng-data-rest.umd.js",
+  "module": "ng-data-rest.js",
+  "jsnext:main": "ng-data-rest.js",
+  "typings": "ng-data-rest.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}
